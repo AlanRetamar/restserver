@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({
 // parse application/json
 app.use(bodyParser.json())
 
-app.get('/ususario', function(req, res) {
+app.get('/usuario', function(req, res) {
     res.json('get')
 })
 
