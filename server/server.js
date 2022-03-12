@@ -12,11 +12,11 @@ app.use(bodyParser.urlencoded({
 // parse application/json
 app.use(bodyParser.json())
 
-app.get('/', function(req, res) {
+app.get('/ususario', function(req, res) {
     res.json('get')
 })
 
-app.post('/', function(req, res) {
+app.post('/usuario', function(req, res) {
     let body = req.body
     if (body.nombre === undefined) {
         res.status(400).json({
@@ -38,7 +38,7 @@ app.put('/usuario/:id', function(req, res) {
     })
 })
 
-app.delete('/', function(req, res) {
+app.delete('/usuario', function(req, res) {
     res.json('delete')
 })
 app.listen(process.env.PORT, () => {
