@@ -1,5 +1,6 @@
 require('./config/config');
 const express = require('express')
+const mongoose = require('mongoose')
 const app = express()
 
 const bodyParser = require('body-parser')
@@ -12,35 +13,27 @@ app.use(bodyParser.urlencoded({
 // parse application/json
 app.use(bodyParser.json())
 
-app.get('/usuario', function(req, res) {
-    res.json('get')
-})
+app.use(require('./routes/usuario'))
 
-app.post('/usuario', function(req, res) {
-    let body = req.body
-    if (body.nombre === undefined) {
-        res.status(400).json({
-            ok: false,
-            mensaje: "El nombre es necesario"
-        })
-    } else {
-        res.json({
-            persona: body
-        })
-    }
 
-})
+const promesaDB = () => {
+    return new Promise((resolve, reject) => {
 
-app.put('/usuario/:id', function(req, res) {
-    let id = req.params.id
-    res.json({
-        id
     })
-})
+}
 
-app.delete('/usuario', function(req, res) {
-    res.json('delete')
-})
+const conexionDB = async() => {
+    let conexion = await mongoose.connect('mongodb://localhost:27017/cafe', (err, res) => {
+        if (err) throw new Error('No se pudo establecer la conexion')
+        console.log('Conexion a base de datos exitosa')
+    })
+    return conexion
+}
+
 app.listen(process.env.PORT, () => {
     console.log('Ejecutando en el puerto:', process.env.PORT);
 })
+
+conexionDB()
+    .then(res => console.log(res))
+    .catch(e => console.log(e))
